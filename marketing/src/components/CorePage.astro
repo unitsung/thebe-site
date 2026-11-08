@@ -176,17 +176,25 @@ const structuredData = {
         </div>
         {deploymentReady && <p class="readiness"><span aria-hidden="true"></span>{text.readiness}</p>}
       </div>
-      <div class="core-hero-panel" aria-hidden="true">
-        <pre><code><span class="prompt">POST</span> /mcp
-&#123;
-  "jsonrpc": "2.0",
-  "method": "tools/list",
-  "id": 1
-&#125;
+      <div class="core-terminal-simulator" aria-hidden="true">
+        <div class="terminal-sim-bar">
+          <div class="terminal-sim-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="terminal-sim-title">thebe-core — daemon · 127.0.0.1:8080</span>
+        </div>
+        <div class="terminal-sim-body">
+          <pre><code><span class="term-dim">$</span> <span class="term-bold">thebe core start</span> --port 8080 --workspace /homelab
+<span class="term-cyan">[thebe]</span> Core daemon v0.1.0 initialized (pid: 4820)
+<span class="term-cyan">[thebe]</span> Providers: docker, pve, zfs, adguard, truenas, beszel
+<span class="term-cyan">[thebe]</span> MCP endpoint ready at <span class="term-yellow">http://127.0.0.1:8080/mcp</span>
+<span class="term-cyan">[thebe]</span> Policy: <span class="term-green">write_actions=require_approval</span>
+<span class="term-cyan">[thebe]</span> Audit stream: /var/log/thebe/audit.log
+<span class="term-cyan">[thebe]</span> Listening on loopback interface (isolated)
 
-<span class="success">✓</span> capabilities listed
-<span class="success">✓</span> policy attached
-<span class="success">✓</span> audit enabled</code></pre>
+<span class="term-dim">› incoming POST /mcp [tools/list]</span>
+<span class="term-green">✓</span> 14 capabilities listed · policy attached</code></pre>
+        </div>
       </div>
     </section>
 
@@ -196,29 +204,77 @@ const structuredData = {
         <h2 id="surface-title">{text.surfacesTitle}</h2>
       </div>
       <div class="surface-grid">
-        {
-          text.surfaces.map((surface) => (
-            <article>
-              <span>{surface.label}</span>
-              <h3>{surface.title}</h3>
-              <p>{surface.body}</p>
-            </article>
-          ))
-        }
+        <article class="surface-card">
+          <div>
+            <span class="surface-tag">MCP PROTOCOL</span>
+            <h3>{text.surfaces[0].title}</h3>
+            <p>{text.surfaces[0].body}</p>
+          </div>
+          <div class="surface-preview" aria-hidden="true">
+            <pre><code>&#123;
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": &#123;
+    "name": "docker_inspect",
+    "id": "homeassistant"
+  &#125;
+&#125;</code></pre>
+          </div>
+        </article>
+
+        <article class="surface-card">
+          <div>
+            <span class="surface-tag">HTTP / REST &amp; SSE</span>
+            <h3>{text.surfaces[1].title}</h3>
+            <p>{text.surfaces[1].body}</p>
+          </div>
+          <div class="surface-preview" aria-hidden="true">
+            <div class="endpoint-list">
+              <div class="endpoint-row"><span class="badge-method badge-get">GET</span><code>/v1/telemetry/nodes</code></div>
+              <div class="endpoint-row"><span class="badge-method badge-post">POST</span><code>/v1/actions/approve</code></div>
+              <div class="endpoint-row"><span class="badge-method badge-get">GET</span><code>/v1/activity/stream</code></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="surface-card">
+          <div>
+            <span class="surface-tag">TERMINAL &amp; TUI</span>
+            <h3>{text.surfaces[2].title}</h3>
+            <p>{text.surfaces[2].body}</p>
+          </div>
+          <div class="surface-preview" aria-hidden="true">
+            <pre><code>┌─ Thebe TUI ── 39/40 OK ─────┐
+│ omv (Debian 13)    CPU 32% │
+│ homeassistant      STOPPED │
+└─────────────────────────────┘</code></pre>
+          </div>
+        </article>
       </div>
     </section>
 
     <section class="section boundary-section" aria-labelledby="boundary-title">
-      <div class="boundary-heading">
+      <div class="section-heading">
         <p class="eyebrow">{text.boundaryEyebrow}</p>
         <h2 id="boundary-title">{text.boundaryTitle}</h2>
         <p>{text.boundaryLead}</p>
       </div>
+      <div class="security-flow-bar" aria-label="Security Flow Pipeline">
+        <span class="security-flow-step"><span>01</span> {locale === "zh" ? "模型提议" : "Model Proposal"}</span>
+        <span class="security-flow-arrow" aria-hidden="true">→</span>
+        <span class="security-flow-step"><span>02</span> {locale === "zh" ? "策略门禁" : "Policy Gate"}</span>
+        <span class="security-flow-arrow" aria-hidden="true">→</span>
+        <span class="security-flow-step"><span>03</span> {locale === "zh" ? "人工审批" : "Human Approval"}</span>
+        <span class="security-flow-arrow" aria-hidden="true">→</span>
+        <span class="security-flow-step"><span>04</span> {locale === "zh" ? "沙箱执行" : "Sandbox Run"}</span>
+        <span class="security-flow-arrow" aria-hidden="true">→</span>
+        <span class="security-flow-step"><span>05</span> {locale === "zh" ? "全量审计" : "Audit Append"}</span>
+      </div>
       <div class="boundary-grid">
         {
-          text.boundaries.map((boundary) => (
-            <article>
-              <h3>{boundary.title}</h3>
+          text.boundaries.map((boundary, i) => (
+            <article class="boundary-card">
+              <h3><span class="card-num">{String(i + 1).padStart(2, "0")}</span> {boundary.title}</h3>
               <p>{boundary.body}</p>
             </article>
           ))

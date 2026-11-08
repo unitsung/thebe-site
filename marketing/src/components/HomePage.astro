@@ -149,20 +149,16 @@ const text =
     </div>
     <figure class="hero-visual" aria-labelledby="hero-caption">
       <div class="phone-frame">
-        <div class="phone-status" aria-hidden="true">
-          <span>9:41</span>
-          <span>● ●●</span>
-        </div>
         <img
-          src="/assets/app-screen-home.png"
-          width="600"
-          height="1304"
+          src={locale === "zh" ? "/assets/app-home-zh.jpg" : "/assets/app-home-en.jpg"}
+          width="720"
+          height="1565"
           alt={locale === "zh" ? "Thebe Home 中 Docker、NAS 和虚拟机的运行状态" : "Docker, NAS, and virtual-machine status in Thebe Home"}
         />
       </div>
       <div class="visual-note">
         <span class="status-dot" aria-hidden="true"></span>
-        <span>{locale === "zh" ? "18 / 21 个容器在线" : "18 / 21 containers online"}</span>
+        <span>{locale === "zh" ? "39 / 40 个容器在线" : "39 / 40 containers online"}</span>
       </div>
       <figcaption id="hero-caption">{text.visualSuffix}</figcaption>
     </figure>
@@ -224,11 +220,10 @@ const text =
     </div>
     <figure class="interface-figure">
       <img
-        src="/assets/app-screen-monitor.png"
-        width="600"
-        height="1304"
-        loading="lazy"
-        alt={locale === "zh" ? "Thebe 首页中的容器、虚拟机、下载与服务状态" : "Container, virtual-machine, download, and service status on Thebe Home"}
+        src={locale === "zh" ? "/assets/app-banner-zh.jpg" : "/assets/app-banner-en.jpg"}
+        width="1920"
+        height="823"
+        alt={locale === "zh" ? "Thebe 原生界面与 AI 管理工作台" : "Thebe native interface and AI management workspace"}
       />
       <figcaption>{text.screenshotCaption}</figcaption>
     </figure>

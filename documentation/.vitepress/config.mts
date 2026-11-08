@@ -111,8 +111,8 @@ export default defineConfig({
   lastUpdated: false,
   markdown: {
     theme: {
-      light: "one-dark-pro",
-      dark: "one-dark-pro",
+      light: "github-light",
+      dark: "github-dark",
     },
   },
   head: [

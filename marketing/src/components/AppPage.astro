@@ -35,9 +35,9 @@ const text = isZh
           body: "集中监控 Docker 容器、Proxmox/PVE 节点、存储池容量与实时网络吞吐。状态直接从局域网或内网获取，无任何第三方云端中转。",
         },
         {
-          tag: "影音中心",
-          title: "多媒体与私有资料库",
-          body: "无缝汇聚 Emby、Jellyfin、Plex 媒体库，结合 Navidrome 音乐与 Immich 智能相册。海报墙、评分、音轨、字幕即点即播。",
+          tag: "服务中枢",
+          title: "基础设施与网络矩阵",
+          body: "聚合管理 PVE 虚拟化、TrueNAS 存储、Arcane 容器、Beszel 主机监控、AdGuard 域名解析与 NPM 反向代理，各服务运行心跳实时掌握。",
         },
         {
           tag: "资源实体",
@@ -47,33 +47,44 @@ const text = isZh
         {
           tag: "受控协同",
           title: "受审批保护的智能助手",
-          body: "“找点乐子 · Ask Thebe”：快捷检索影视、分析系统异常。高风险写操作必须显式申请批准，彻底杜绝黑盒盲操与失控。",
+          body: "基于本地与公有模型驱动的 Homelab 助手。结合上下文分析异常事件，工具调用过程完全透明，写操作必须经你确认后才可执行。",
         },
       ],
 
       galleryEyebrow: "界面预览",
-      galleryTitle: "纯粹、现代、专注细节的 Apple 原生设计。",
-      galleryLead: "基于 SwiftUI 深度打磨，适配深浅模式与各种屏幕尺寸，带来丝滑顺畅的沉浸式体验。",
+      galleryTitle: "专注 Homelab 的原生交互体验。",
+      galleryLead: "专为 iOS、iPadOS 与 macOS 打造，深色模式自然契合，信息密度与可读性完美平衡。",
       gallery: [
         {
-          img: "/assets/app-screen-home.png",
-          tag: "媒体与看板",
-          title: "首页媒体流与入库看板",
-          desc: "沉浸式海报墙与继续播放进度，自动聚合最近更新与入库条目。",
+          img: "/assets/app-home-zh.jpg",
+          tag: "全景看板",
+          title: "主机硬件负载与容器状态",
+          desc: "CPU、内存、系统盘与多块硬盘温度实时呈现，容器故障显式预警。",
         },
         {
-          img: "/assets/app-screen-monitor.png",
-          tag: "监控与智能",
-          title: "硬件负载监控与 Ask Thebe",
-          desc: "CPU、内存、存储与实时网络吞吐仪表盘，配合 Ask Thebe 自然语言智能建议。",
+          img: "/assets/app-services-zh.jpg",
+          tag: "服务矩阵",
+          title: "基础设施与网络安全服务",
+          desc: "一站式管理 PVE 虚拟化、TrueNAS 存储、Beszel 监控、AdGuard 与 UniFi 网络。",
         },
         {
-          img: "/assets/app-screen-services.png",
-          tag: "服务中心",
-          title: "服务矩阵与快捷直连",
-          desc: "全量 homelab 服务一网打尽，即时查看健康心跳与一键直连操作。",
+          img: "/assets/app-library-zh.jpg",
+          tag: "资料中枢",
+          title: "多媒体聚合与私有资料库",
+          desc: "无缝汇聚 Emby、Jellyfin、Navidrome 音乐与 Immich 智能相册，海报墙与播放直连无需频繁切应用。",
         },
       ],
+
+      padEyebrow: "跨设备体验",
+      padTitle: "从掌心到桌面，一致的 Apple 原生质感。",
+      padLead: "适配 iPadOS 与 Apple Silicon Mac 多窗口分屏，大屏视野下硬件负载、存储池与 Ask Thebe 快捷指令尽收眼底。",
+      padPoints: [
+        "大屏多栏视野：一屏纵览全景看板、资料库、服务矩阵与快捷提问",
+        "适配 Stage Manager 与 Split View，日常监控无缝融入桌面工作流",
+        "深度支持 Apple Silicon Mac 键盘快捷键与多窗口调度",
+      ],
+      padImg: "/assets/app-pad-zh.jpg",
+      padAlt: "Thebe App 在 iPad / Mac 上的大屏工作台界面",
 
       detailEyebrow: "从观察到行动",
       detailTitle: "发现问题，但绝不把控制权交给黑盒。",
@@ -105,6 +116,14 @@ const text = isZh
       repairCaption: "真实修复请求卡片：清晰列出操作对象与原因，等待用户手动确认",
       repairTitle: "发现服务异常：nginx 容器意外退出",
       repairMeta: "受监控节点: omv (192.168.1.10) · 影响范围: 外部 HTTP 反向代理",
+      approvalTitle: "服务异常告警：homeassistant 意外退出",
+      approvalMeta: "受监控节点: omv (192.168.1.110) · 端口: 8123",
+      approvalDiagnosis: "智能助手已读取容器日志：检测到 8123 端口冲突导致进程中断。建议重启容器并应用端口隔离配置。",
+      approvalCommand: "docker restart homeassistant && docker inspect --format='{{.State.Health.Status}}' homeassistant",
+      approvalGateNotice: "高风险写操作 · 需用户明确点击批准方可执行",
+      approvalRejectBtn: "驳回操作",
+      approvalConfirmBtn: "批准并执行",
+      approvalAuditFoot: "✓ 审批结果将与操作者签名一同存入不可变审计日志 (/activity)",
 
       modesEyebrow: "架构与连接",
       modesTitle: "按你的需求组合，没有任何锁定。",
@@ -165,9 +184,9 @@ const text = isZh
           body: "Monitor Docker containers, Proxmox/PVE nodes, storage pool capacity, and network throughput together. Data comes straight from your local network without touching any third-party server.",
         },
         {
-          tag: "Media Hub",
-          title: "Unified Media & Private Library",
-          body: "Seamlessly gather Emby, Jellyfin, and Plex libraries alongside Navidrome music and Immich photo albums. Poster walls, ratings, audio tracks, and subtitles ready to play at a tap.",
+          tag: "Service Hub",
+          title: "Infrastructure & Network Matrix",
+          body: "Centrally manage PVE virtualization, TrueNAS storage, Arcane containers, Beszel metrics, AdGuard DNS, and NPM proxies with real-time health checks.",
         },
         {
           tag: "Entity-First",
@@ -177,33 +196,44 @@ const text = isZh
         {
           tag: "Safe AI",
           title: "Approval-Gated Intelligence",
-          body: "“Ask Thebe” lets you discover movies and analyze system anomalies. High-risk write operations always require explicit approval, preventing black-box mistakes.",
+          body: "Context-aware AI assistant powered by local or cloud models. Traceable reasoning chains, token velocity stats, and mandatory approvals for write actions.",
         },
       ],
 
       galleryEyebrow: "Interface Preview",
-      galleryTitle: "Pure, modern, and detailed native craft.",
-      galleryLead: "Built deeply with SwiftUI, adapting to light and dark modes across screen sizes for a smooth, immersive experience.",
+      galleryTitle: "Native interaction tailored for homelab operations.",
+      galleryLead: "Crafted specifically for iOS, iPadOS, and macOS with authentic dark-mode depth, high information density, and effortless readability.",
       gallery: [
         {
-          img: "/assets/app-screen-home.png",
-          tag: "Media & Horizon",
-          title: "Home Media & Recent Ingestion",
-          desc: "Immersive poster walls and continue-watching progress, automatically aggregating recent updates.",
+          img: "/assets/app-home-en.jpg",
+          tag: "Horizon",
+          title: "Hardware Metrics & Container Health",
+          desc: "Live CPU, memory, system drive, and multi-disk temperatures with explicit container failure alerts.",
         },
         {
-          img: "/assets/app-screen-monitor.png",
-          tag: "Metrics & Ask",
-          title: "Hardware Metrics & Ask Thebe",
-          desc: "CPU, memory, storage, and throughput gauges paired with natural-language suggestions.",
-        },
-        {
-          img: "/assets/app-screen-services.png",
+          img: "/assets/app-services-en.jpg",
           tag: "Services",
-          title: "Service Matrix & Direct Shortcuts",
-          desc: "Your entire homelab suite in one grid, with live health checks and instant access.",
+          title: "Infrastructure & Security Hub",
+          desc: "Unified control for PVE, TrueNAS, Beszel, AdGuard DNS, and UniFi network gateways.",
+        },
+        {
+          img: "/assets/app-library-en.jpg",
+          tag: "Library",
+          title: "Unified Media & Private Assets",
+          desc: "Centralized hub for Emby, Jellyfin, Navidrome music, and Immich photos without switching between disjointed apps.",
         },
       ],
+
+      padEyebrow: "Cross-Platform",
+      padTitle: "From pocket to desktop, seamless Apple native craft.",
+      padLead: "Optimized for iPadOS and Apple Silicon Mac multi-window multitasking, bringing all your hardware, containers, and Ask Thebe shortcuts into one broad canvas.",
+      padPoints: [
+        "Expansive multi-column canvas: overview, library, services, and shortcuts side-by-side",
+        "Seamless support for Stage Manager and Split View alongside your terminal",
+        "Keyboard shortcut optimizations tailored for Apple Silicon Mac multitasking",
+      ],
+      padImg: "/assets/app-pad-en.jpg",
+      padAlt: "Thebe App expansive workspace on iPad and Mac",
 
       detailEyebrow: "From Observation to Action",
       detailTitle: "See the problem, without handing control to a black box.",
@@ -235,6 +265,14 @@ const text = isZh
       repairCaption: "Real remediation card: outlines the exact target and reason, awaiting user confirmation",
       repairTitle: "Service Anomaly Detected: nginx exited unexpectedly",
       repairMeta: "Monitored host: omv (192.168.1.10) · Impact: External HTTP reverse proxy",
+      approvalTitle: "Service Anomaly: homeassistant exited unexpectedly",
+      approvalMeta: "Monitored Host: omv (192.168.1.110) · Port: 8123",
+      approvalDiagnosis: "The agent analyzed container logs: port binding conflict caused unexpected termination. Recommended fix is restarting the container and verifying health status.",
+      approvalCommand: "docker restart homeassistant && docker inspect --format='{{.State.Health.Status}}' homeassistant",
+      approvalGateNotice: "High-risk write operation · Requires explicit manual approval",
+      approvalRejectBtn: "Reject Action",
+      approvalConfirmBtn: "Approve & Execute",
+      approvalAuditFoot: "✓ Decisions and authorization signatures append to immutable local audit log (/activity)",
 
       modesEyebrow: "Architecture & Modes",
       modesTitle: "Choose how you run, with zero lock-in.",
@@ -298,14 +336,10 @@ const text = isZh
       <figure class="app-hero-device" aria-label={text.visualAlt}>
         <div class="device-glow" aria-hidden="true"></div>
         <div class="phone-frame">
-          <div class="phone-status" aria-hidden="true">
-            <span>22:47</span>
-            <span>● ●●</span>
-          </div>
           <img
-            src="/assets/app-screen-home.png"
-            width="600"
-            height="1304"
+            src={isZh ? "/assets/app-home-zh.jpg" : "/assets/app-home-en.jpg"}
+            width="720"
+            height="1565"
             alt={text.visualAlt}
           />
         </div>
@@ -347,7 +381,9 @@ const text = isZh
           text.gallery.map((item) => (
             <div class="showcase-card">
               <div class="showcase-screen">
-                <img src={item.img} width="600" height="1304" loading="lazy" alt={item.title} />
+                <div class="showcase-screen-mockup">
+                  <img src={item.img} width="720" height="1565" alt={item.title} />
+                </div>
               </div>
               <div class="showcase-meta">
                 <span class="showcase-tag">{item.tag}</span>
@@ -357,6 +393,30 @@ const text = isZh
             </div>
           ))
         }
+      </div>
+    </section>
+
+    <!-- IPAD & MAC DESKTOP CANVAS -->
+    <section class="section pad-section" aria-labelledby="pad-title">
+      <div class="pad-section-split">
+        <div class="pad-copy">
+          <p class="eyebrow">{text.padEyebrow}</p>
+          <h2 id="pad-title">{text.padTitle}</h2>
+          <p>{text.padLead}</p>
+          <ul class="pad-points-list">
+            {text.padPoints.map((pt) => <li>{pt}</li>)}
+          </ul>
+        </div>
+        <div class="pad-frame-container">
+          <div class="pad-frame">
+            <img
+              src={text.padImg}
+              width="1200"
+              height="1600"
+              alt={text.padAlt}
+            />
+          </div>
+        </div>
       </div>
     </section>
 
@@ -381,31 +441,34 @@ const text = isZh
         </div>
       </div>
       <div class="app-repair-container">
-        <div class="repair-window">
-          <div class="repair-window-header">
-            <div class="window-dots" aria-hidden="true">
+        <div class="approval-window-card">
+          <div class="approval-window-top">
+            <div class="approval-traffic-lights" aria-hidden="true">
               <span></span><span></span><span></span>
             </div>
-            <span class="window-title">Thebe Diagnostic &amp; Action</span>
+            <span class="approval-window-title">Thebe Diagnostic &amp; Action</span>
           </div>
-          <div class="repair-window-body">
-            <div class="repair-context-box">
-              <div class="repair-pulse" aria-hidden="true"></div>
-              <div>
-                <strong>{text.repairTitle}</strong>
-                <p class="repair-meta-text">{text.repairMeta}</p>
-              </div>
+          <div class="approval-content">
+            <div class="approval-alert-badge">
+              <span aria-hidden="true">⚠️</span>
+              <span>{text.approvalTitle}</span>
             </div>
-            <div class="repair-card-display">
-              <img
-                src="/assets/app-repair-card.png"
-                width="700"
-                height="180"
-                loading="lazy"
-                alt={text.repairAlt}
-              />
+            <div>
+              <p class="approval-issue-desc">{text.approvalDiagnosis}</p>
             </div>
-            <p class="repair-note">{text.repairCaption}</p>
+            <div class="approval-cmd-box">
+              <span class="approval-cmd-label">{isZh ? "拟执行命令" : "Proposed Command"}</span>
+              <code>{text.approvalCommand}</code>
+            </div>
+            <div class="approval-gate-notice">
+              <span aria-hidden="true">🛡️</span>
+              <span>{text.approvalGateNotice}</span>
+            </div>
+            <div class="approval-actions-bar">
+              <button type="button" class="approval-btn-reject">{text.approvalRejectBtn}</button>
+              <button type="button" class="approval-btn-confirm">{text.approvalConfirmBtn}</button>
+            </div>
+            <p class="approval-audit-line">{text.approvalAuditFoot}</p>
           </div>
         </div>
       </div>
