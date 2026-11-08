@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const title = "Page not found · Thebe";
+const description = "The page you are looking for does not exist or has been moved.";
+---
+
+<BaseLayout locale="en" route="404" title={title} description={description}>
+  <div class="content-hero" style="text-align: center; padding: 6rem 1.5rem;">
+    <p class="eyebrow">404</p>
+    <h1>Page not found</h1>
+    <p class="content-lead">The page you are looking for does not exist or has been moved.</p>
+    <div class="hero-actions" style="justify-content: center; margin-top: 2rem;">
+      <a class="button button-primary" href="/en/">Return home</a>
+      <a class="button button-secondary" href="/en/core/docs/">Core documentation</a>
+    </div>
+  </div>
+</BaseLayout>

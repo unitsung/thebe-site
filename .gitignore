@@ -1,0 +1,12 @@
+node_modules/
+dist/
+documentation/dist/
+documentation/public/
+documentation/content/
+.astro/
+.vite/
+playwright-report/
+test-results/
+.DS_Store
+*.log
+

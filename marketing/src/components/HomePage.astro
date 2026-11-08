@@ -1,0 +1,269 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { docsUrl, routeFor, siteConfig, type Locale } from "../lib/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const text =
+  locale === "zh"
+    ? {
+        title: "Thebe · NAS 与 homelab 工作台",
+        description:
+          "Thebe 把分散的 NAS、媒体库、容器和 homelab 服务变成可理解、可操作的系统。原生 App 负责日常操作，Thebe Core 处理需要推理与审批的复杂任务。",
+        eyebrow: "原生 App + 开源 Core",
+        headline: "把分散的 NAS 与 homelab，变成一个可理解、可操作的系统。",
+        lead:
+          "Thebe App 让你少开十几个标签页。Thebe Core 把跨服务任务变成有审批、有记录、可验证的执行。两者独立可用，也可以协同工作。",
+        primary: "认识 Thebe App",
+        secondary: "看看 Thebe Core",
+        appStatus: "App Store 即将上线",
+        visualSuffix: "真实界面中的资源状态，不含主机地址或账号信息",
+        splitEyebrow: "两种产品，一套系统模型",
+        splitTitle: "日常操作要快，复杂任务要稳。",
+        splitLead:
+          "App 把常用状态和资源放在手边。Core 在任务跨越多个服务、需要判断或变更环境时接管。",
+        appTitle: "Thebe App",
+        appKicker: "原生工作台",
+        appBody:
+          "在 iPhone、iPad 和 Mac 上查看服务、媒体、下载、容器与活动。常规操作保持直接、确定和可重复。",
+        appPoints: ["服务与资源状态一眼可见", "媒体、文件、容器和下载集中操作", "不需要开发者账号"],
+        coreTitle: "Thebe Core",
+        coreKicker: "开源自托管 Agent",
+        coreBody:
+          "连接你自己运行的服务与模型。读操作直接完成；有风险的动作先审批，并把每次调用写进审计记录。",
+        corePoints: ["MCP、HTTP 与终端三种入口", "风险分级、审批与审计", "按你的工作区和权限运行"],
+        workflowEyebrow: "从看到问题到完成工作",
+        workflowTitle: "不是更多仪表盘，而是更少来回切换。",
+        workflows: [
+          {
+            number: "01",
+            title: "先看清对象",
+            body: "媒体库、下载、容器、文件和活动使用同一套资源语言，不再靠记住每项服务在哪个端口。",
+          },
+          {
+            number: "02",
+            title: "让任务跨过服务",
+            body: "一个目标可以包含查找、诊断、执行和验证。过程在 Activity 中留下可读记录。",
+          },
+          {
+            number: "03",
+            title: "变更前停下来",
+            body: "写操作、危险命令和越界访问都有明确边界。批准针对具体动作，不针对一句模糊的模型文本。",
+          },
+        ],
+        screenshotEyebrow: "真实产品界面",
+        screenshotTitle: "先看见系统，再决定下一步。",
+        screenshotBody:
+          "状态、容量和服务运行情况直接来自你连接的环境。演示素材只保留通用资源名称，不展示地址、凭据或账号。",
+        screenshotCaption: "Thebe Home 的资源概览",
+        coreEyebrow: "为复杂操作准备",
+        coreTitleLong: "让 Agent 做事，但别让它替你签字。",
+        coreBodyLong:
+          "Core 将策略、审批、执行和验证分开。它操作的是你自己的服务与账号，不会替你发布、购买或寻找受版权保护的内容。",
+        coreAction: "阅读 Core 文档",
+        supportTitle: "需要帮助？",
+        supportBody: "查看常见问题，或直接给维护者写信。反馈时请移除密码、令牌和 API 密钥。",
+        supportAction: "打开支持页面",
+      }
+    : {
+        title: "Thebe · A workspace for your NAS and homelab",
+        description:
+          "Thebe turns scattered NAS, media, container, and homelab services into one understandable, operable system. The native App handles daily work; Thebe Core takes on complex, approval-gated tasks.",
+        eyebrow: "Native App + open-source Core",
+        headline: "Turn a scattered NAS and homelab into one understandable, operable system.",
+        lead:
+          "The Thebe App saves you from a dozen open tabs. Thebe Core turns cross-service work into approved, recorded, verifiable execution. Each is useful alone, and stronger together.",
+        primary: "Explore the App",
+        secondary: "Meet Thebe Core",
+        appStatus: "Coming soon to the App Store",
+        visualSuffix: "Resource status from the real interface, with no host addresses or account data",
+        splitEyebrow: "Two products, one system model",
+        splitTitle: "Fast for routine work. Careful with complex change.",
+        splitLead:
+          "The App keeps common state and resources within reach. Core takes over when a task crosses services, needs judgment, or changes the environment.",
+        appTitle: "Thebe App",
+        appKicker: "Native workspace",
+        appBody:
+          "See services, media, downloads, containers, and activity on iPhone, iPad, and Mac. Routine operations stay direct, deterministic, and repeatable.",
+        appPoints: ["Service and resource state at a glance", "Media, files, containers, and downloads in one place", "No developer account required"],
+        coreTitle: "Thebe Core",
+        coreKicker: "Open-source self-hosted agent",
+        coreBody:
+          "Connect the services and models you already run. Reads finish directly; risky actions wait for approval and every call enters the audit record.",
+        corePoints: ["MCP, HTTP, and terminal entry points", "Risk checks, approvals, and audit", "Bound to your workspace and permissions"],
+        workflowEyebrow: "From noticing a problem to finishing the work",
+        workflowTitle: "Not more dashboards. Fewer context switches.",
+        workflows: [
+          {
+            number: "01",
+            title: "See the object",
+            body: "Libraries, downloads, containers, files, and activity share one resource language. You no longer need to remember which service owns each port.",
+          },
+          {
+            number: "02",
+            title: "Move across services",
+            body: "One goal can include discovery, diagnosis, execution, and verification. Activity keeps the process readable.",
+          },
+          {
+            number: "03",
+            title: "Stop before change",
+            body: "Writes, dangerous commands, and out-of-workspace access have explicit boundaries. Approval applies to a concrete action, not a vague model response.",
+          },
+        ],
+        screenshotEyebrow: "Real product interface",
+        screenshotTitle: "See the system before choosing the next step.",
+        screenshotBody:
+          "Status, capacity, and service health come directly from the environment you connect. Demo material keeps generic resource names and omits addresses, credentials, and accounts.",
+        screenshotCaption: "Resource overview in Thebe Home",
+        coreEyebrow: "Built for difficult work",
+        coreTitleLong: "Let the agent do the work. Do not let it sign for you.",
+        coreBodyLong:
+          "Core separates policy, approval, execution, and verification. It operates only the services and accounts you control, and does not publish, purchase, or search for copyrighted content on your behalf.",
+        coreAction: "Read the Core docs",
+        supportTitle: "Need help?",
+        supportBody: "Read common questions or write to the maintainer. Remove passwords, tokens, and API keys from anything you send.",
+        supportAction: "Open support",
+      };
+---
+
+<BaseLayout locale={locale} route="/" title={text.title} description={text.description}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">{text.eyebrow}</p>
+      <h1>{text.headline}</h1>
+      <p class="hero-lead">{text.lead}</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href={routeFor("/app", locale)}>{text.primary}</a>
+        <a class="button button-secondary" href={routeFor("/core", locale)}>{text.secondary}</a>
+      </div>
+      {
+        siteConfig.appStoreUrl ? (
+          <a class="store-link" href={siteConfig.appStoreUrl}>App Store ↗</a>
+        ) : (
+          <span class="store-link store-link-muted" aria-disabled="true">{text.appStatus}</span>
+        )
+      }
+    </div>
+    <figure class="hero-visual" aria-labelledby="hero-caption">
+      <div class="phone-frame">
+        <div class="phone-status" aria-hidden="true">
+          <span>9:41</span>
+          <span>● ●●</span>
+        </div>
+        <img
+          src="/assets/home-status.png"
+          width="720"
+          height="738"
+          alt={locale === "zh" ? "Thebe Home 中 Docker、NAS 和虚拟机的运行状态" : "Docker, NAS, and virtual-machine status in Thebe Home"}
+        />
+      </div>
+      <div class="visual-note">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>{locale === "zh" ? "18 / 21 个容器在线" : "18 / 21 containers online"}</span>
+      </div>
+      <figcaption id="hero-caption">{text.visualSuffix}</figcaption>
+    </figure>
+  </section>
+
+  <section class="section product-split" aria-labelledby="product-split-title">
+    <div class="section-heading">
+      <p class="eyebrow">{text.splitEyebrow}</p>
+      <h2 id="product-split-title">{text.splitTitle}</h2>
+      <p>{text.splitLead}</p>
+    </div>
+    <div class="split-grid">
+      <article class="product-card product-card-app">
+        <p class="card-kicker">{text.appKicker}</p>
+        <h3>{text.appTitle}</h3>
+        <p>{text.appBody}</p>
+        <ul>
+          {text.appPoints.map((point) => <li>{point}</li>)}
+        </ul>
+        <a class="text-link" href={routeFor("/app", locale)}>{text.primary} →</a>
+      </article>
+      <article class="product-card product-card-core">
+        <p class="card-kicker">{text.coreKicker}</p>
+        <h3>{text.coreTitle}</h3>
+        <p>{text.coreBody}</p>
+        <ul>
+          {text.corePoints.map((point) => <li>{point}</li>)}
+        </ul>
+        <a class="text-link" href={routeFor("/core", locale)}>{text.secondary} →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section workflow-section" aria-labelledby="workflow-title">
+    <div class="section-heading section-heading-inline">
+      <div>
+        <p class="eyebrow">{text.workflowEyebrow}</p>
+        <h2 id="workflow-title">{text.workflowTitle}</h2>
+      </div>
+    </div>
+    <ol class="workflow-grid">
+      {
+        text.workflows.map((item) => (
+          <li>
+            <span>{item.number}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="section interface-section" aria-labelledby="interface-title">
+    <div class="interface-copy">
+      <p class="eyebrow">{text.screenshotEyebrow}</p>
+      <h2 id="interface-title">{text.screenshotTitle}</h2>
+      <p>{text.screenshotBody}</p>
+    </div>
+    <figure class="interface-figure">
+      <img
+        src="/assets/home-status.png"
+        width="720"
+        height="738"
+        loading="lazy"
+        alt={locale === "zh" ? "Thebe 首页中的容器、虚拟机、下载与服务状态" : "Container, virtual-machine, download, and service status on Thebe Home"}
+      />
+      <figcaption>{text.screenshotCaption}</figcaption>
+    </figure>
+  </section>
+
+  <section class="section core-band" aria-labelledby="core-band-title">
+    <div class="core-band-inner">
+      <div>
+        <p class="eyebrow eyebrow-dark">{text.coreEyebrow}</p>
+        <h2 id="core-band-title">{text.coreTitleLong}</h2>
+        <p>{text.coreBodyLong}</p>
+      </div>
+      <div class="core-terminal" aria-hidden="true">
+        <div class="terminal-bar">
+          <span></span><span></span><span></span>
+        </div>
+        <pre><code><span class="prompt">thebe</span> doctor
+workspace  /workspace
+sandbox    os
+approval   manual
+audit      on
+
+<span class="prompt">›</span> inspect container: media
+<span class="success">✓</span> health verified</code></pre>
+      </div>
+      <a class="button button-light" href={docsUrl(locale)}>{text.coreAction}</a>
+    </div>
+  </section>
+
+  <section class="support-strip" aria-labelledby="support-title">
+    <div>
+      <h2 id="support-title">{text.supportTitle}</h2>
+      <p>{text.supportBody}</p>
+    </div>
+    <a class="button button-secondary" href={routeFor("/support", locale)}>{text.supportAction}</a>
+  </section>
+</BaseLayout>
+

@@ -1,0 +1,29 @@
+{
+  "name": "thebe-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The bilingual portal for Thebe and Thebe Core.",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "install:apps": "npm --prefix marketing ci && npm --prefix documentation ci",
+    "sync:core-docs": "node scripts/sync-core-docs.mjs",
+    "build:marketing": "npm --prefix marketing run build",
+    "build:docs": "npm run sync:core-docs && npm --prefix documentation run build",
+    "build": "npm run build:marketing && npm run build:docs && node scripts/compose-release.mjs",
+    "check": "npm --prefix marketing run check && npm --prefix documentation run check && node --check scripts/compose-release.mjs && node --check scripts/sync-core-docs.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "verify": "npm run build && node scripts/verify-release.mjs",
+    "deploy:dry-run": "node scripts/deploy-release.mjs --dry-run"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.65.0",
+    "html-validate": "11.19.0",
+    "node-html-parser": "9.0.7"
+  }
+}
+

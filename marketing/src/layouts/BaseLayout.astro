@@ -1,0 +1,62 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import {
+  absoluteUrl,
+  copyFor,
+  siteConfig,
+  type Locale,
+} from "../lib/site";
+import "../styles/global.css";
+
+interface Props {
+  locale: Locale;
+  route: string;
+  title: string;
+  description: string;
+}
+
+const { locale, route, title, description } = Astro.props;
+const copy = copyFor(locale);
+const canonical = absoluteUrl(route, locale);
+const alternate = absoluteUrl(route, copy.alternateLocale as Locale);
+const socialImage = new URL("/assets/social-card.png", Astro.site).href;
+---
+
+<!doctype html>
+<html lang={copy.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={copy.htmlLang} href={canonical} />
+    <link rel="alternate" hreflang={locale === "zh" ? "en" : "zh-Hans"} href={alternate} />
+    <link rel="alternate" hreflang="x-default" href={absoluteUrl(route, "zh")} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Thebe" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale === "zh" ? "zh_CN" : "en_US"} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f8fb" />
+    {
+      siteConfig.environment === "preview" && (
+        <meta name="robots" content="noindex,nofollow" />
+      )
+    }
+    <link rel="icon" href="/assets/thebe-app-icon.png" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{copy.skip}</a>
+    <SiteHeader locale={locale} route={route} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter locale={locale} />
+  </body>
+</html>
+

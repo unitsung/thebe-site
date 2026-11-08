@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "页面未找到 · Thebe";
+const description = "您访问的页面不存在或已被移动。";
+---
+
+<BaseLayout locale="zh" route="404" title={title} description={description}>
+  <div class="content-hero" style="text-align: center; padding: 6rem 1.5rem;">
+    <p class="eyebrow">404</p>
+    <h1>页面未找到</h1>
+    <p class="content-lead">您访问的页面不存在或已被移动。</p>
+    <div class="hero-actions" style="justify-content: center; margin-top: 2rem;">
+      <a class="button button-primary" href="/">返回首页</a>
+      <a class="button button-secondary" href="/core/docs/">查看 Core 文档</a>
+    </div>
+  </div>
+</BaseLayout>

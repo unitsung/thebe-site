@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { contentPages, type ContentSlug } from "../content/pages";
+import type { Locale } from "../lib/site";
+
+interface Props {
+  locale: Locale;
+  slug: ContentSlug;
+}
+
+const { locale, slug } = Astro.props;
+const page = contentPages[slug][locale];
+---
+
+<BaseLayout
+  locale={locale}
+  route={`/${slug}`}
+  title={page.title}
+  description={page.description}
+>
+  <article class="content-page">
+    <header class="content-hero">
+      <p class="eyebrow">{page.eyebrow}</p>
+      <h1>{page.heading}</h1>
+      <p class="content-lead">{page.lead}</p>
+      {page.meta && <p class="content-meta">{page.meta}</p>}
+    </header>
+    <div class="content-body">
+      {
+        page.sections.map((section) => (
+          <section>
+            <h2>{section.heading}</h2>
+            {section.paragraphs.map((paragraph) => <p set:html={paragraph} />)}
+            {section.items && (
+              <ul>
+                {section.items.map((item) => <li set:html={item} />)}
+              </ul>
+            )}
+          </section>
+        ))
+      }
+    </div>
+  </article>
+</BaseLayout>
+

@@ -1,0 +1,42 @@
+---
+import { copyFor, docsUrl, routeFor, type Locale } from "../lib/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = copyFor(locale);
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href={routeFor("/", locale)}>
+        <img src="/assets/thebe-app-icon.png" width="32" height="32" alt="" aria-hidden="true" />
+        <span>Thebe</span>
+      </a>
+      <p>{locale === "zh" ? "你的 NAS 与 homelab，终于连成一个整体。" : "Your NAS and homelab, finally working as one system."}</p>
+    </div>
+    <div class="footer-links">
+      <div>
+        <strong>{copy.footer.product}</strong>
+        <a href={routeFor("/app", locale)}>Thebe App</a>
+        <a href={routeFor("/core", locale)}>Thebe Core</a>
+        <a href={docsUrl(locale)}>{copy.nav.docs}</a>
+      </div>
+      <div>
+        <strong>{copy.footer.trust}</strong>
+        <a href={routeFor("/privacy", locale)}>{copy.footer.privacy}</a>
+        <a href={routeFor("/security", locale)}>{copy.footer.security}</a>
+        <a href={routeFor("/responsible-use", locale)}>{copy.footer.responsibleUse}</a>
+        <a href={routeFor("/support", locale)}>{copy.nav.support}</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">
+    <span>© 2026 Thebe</span>
+    <span>{locale === "zh" ? "工具按现状提供；服务与数据由你掌控。" : "Tools provided as-is; your services and data stay yours."}</span>
+  </div>
+</footer>
+

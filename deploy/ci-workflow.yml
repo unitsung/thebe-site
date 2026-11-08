@@ -1,0 +1,58 @@
+name: CI / Release
+
+on:
+  push:
+    branches: [main, feat/*]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install app dependencies
+        run: |
+          npm --prefix marketing ci
+          npm --prefix documentation ci
+
+      - name: Type and syntax checks
+        run: npm run check
+
+      - name: Build and test
+        run: npm test
+
+      - name: Verify release artifact
+        run: npm run verify
+
+      - name: Dry-run deployment check
+        run: npm run deploy:dry-run
+
+      - name: Deploy to production host
+        if: github.ref == 'refs/heads/main' && env.DEPLOY_SSH_KEY != ''
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          node scripts/deploy-release.mjs

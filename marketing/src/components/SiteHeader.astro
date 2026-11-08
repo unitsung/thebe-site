@@ -1,0 +1,42 @@
+---
+import { copyFor, docsUrl, routeFor, type Locale } from "../lib/site";
+
+interface Props {
+  locale: Locale;
+  route: string;
+}
+
+const { locale, route } = Astro.props;
+const copy = copyFor(locale);
+const alternateLocale = copy.alternateLocale as Locale;
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href={routeFor("/", locale)} aria-label="Thebe">
+      <img
+        src="/assets/thebe-app-icon.png"
+        width="36"
+        height="36"
+        alt=""
+        aria-hidden="true"
+      />
+      <span>Thebe</span>
+    </a>
+    <nav class="primary-nav" aria-label={locale === "zh" ? "主要导航" : "Primary navigation"}>
+      <a href={routeFor("/app", locale)}>{copy.nav.app}</a>
+      <a href={routeFor("/core", locale)}>{copy.nav.core}</a>
+      <a href={docsUrl(locale)}>{copy.nav.docs}</a>
+      <a href={routeFor("/support", locale)}>{copy.nav.support}</a>
+    </nav>
+    <a
+      class="locale-switch"
+      href={routeFor(route, alternateLocale)}
+      hreflang={copyFor(alternateLocale).htmlLang}
+      lang={copyFor(alternateLocale).htmlLang}
+    >
+      {alternateLocale === "en" ? "EN" : "中文"}
+    </a>
+  </div>
+</header>
+

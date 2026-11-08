@@ -1,0 +1,249 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { deploymentReady, docsUrl, routeFor, siteConfig, type Locale } from "../lib/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const text =
+  locale === "zh"
+    ? {
+        title: "Thebe Core · 开源自托管 homelab Agent",
+        description:
+          "Thebe Core 是带审批、审计和隔离边界的开源 homelab Agent，可通过 MCP、HTTP、终端或 App 使用。",
+        eyebrow: "Thebe Core",
+        heading: "一个只操作你自己的服务和账号的开源 Agent。",
+        lead:
+          "Core 连接你已有的媒体、照片、音乐、文件、下载与容器服务，把读操作直接完成，把有风险的动作放进审批、执行、验证和审计链路。",
+        preview: "Preview · v0.1.0",
+        repoAction: "浏览 GitHub 仓库",
+        docsAction: "阅读文档",
+        deployAction: "容器快速开始",
+        readiness: "公开仓库、v0.1.0 发布标签与 OCI 镜像均可用",
+        surfacesEyebrow: "三种入口",
+        surfacesTitle: "把 Agent 放在你已经在用的地方。",
+        surfaces: [
+          {
+            label: "01 / MCP",
+            title: "接入现有 Agent",
+            body: "用 /mcp 暴露工具。任何能设置 HTTP 请求头的 MCP 客户端都可以列出并调用 Core 的能力。",
+          },
+          {
+            label: "02 / HTTP",
+            title: "构建客户端与自动化",
+            body: "会话、目标、定时任务、活动、审批和审计通过 /v1 API 暴露，供 App 或你自己的工作流使用。",
+          },
+          {
+            label: "03 / CLI + TUI",
+            title: "直接在终端工作",
+            body: "在指定工作区里读写文件、执行受保护命令、运行一次性任务，或进入完整的交互终端。",
+          },
+        ],
+        boundaryEyebrow: "执行边界",
+        boundaryTitle: "策略决定能做什么，审批决定这次是否执行。",
+        boundaryLead:
+          "模型负责理解和提议，不负责给自己授权。写操作、危险命令和越界访问都经过独立边界，结果进入 Activity 与审计记录。",
+        boundaries: [
+          {
+            title: "Token",
+            body: "API token 拥有完整权限，没有内建作用域。为每台设备创建独立 token，并在丢失时单独撤销。",
+          },
+          {
+            title: "Approval",
+            body: "Core 内与 MCP 调用方的审批责任不同。通过 /mcp 接入时，调用方要负责向用户确认；也可将写操作整体关闭。",
+          },
+          {
+            title: "Isolation",
+            body: "容器与宿主机使用不同隔离模型。默认只发布回环地址；远程访问需要 TLS、隧道或可信反向代理。",
+          },
+          {
+            title: "Audit",
+            body: "每次工具调用写入只追加审计记录。日志不包含完整参数和输出，但足以查看谁在何时调用了什么。",
+          },
+        ],
+        sourceEyebrow: "开放源码",
+        sourceTitle: "Apache-2.0，公开构建，公开讨论。",
+        sourceBody:
+          "Core 源码、发布、问题与部署文档都在公开仓库。Thebe 名称和标志不在 Apache-2.0 授权范围内。",
+        sourceRepo: "查看源代码",
+        sourceIssues: "公开 issue",
+        sourceSecurity: "私下报告安全问题",
+        deployTitle: "预览版限制",
+        deployBody:
+          "v0.1.0 是 Preview。部分服务集成只经过录制响应和 mock 验证；在真实版本上的兼容性尚未逐一确认。不要把 Preview 当作生产级保证。",
+      }
+    : {
+        title: "Thebe Core · An open-source self-hosted homelab agent",
+        description:
+          "Thebe Core is an open-source homelab agent with approvals, audit, and isolation boundaries, available through MCP, HTTP, terminal, or the App.",
+        eyebrow: "Thebe Core",
+        heading: "An open-source agent that operates only your services and accounts.",
+        lead:
+          "Core connects your existing media, photos, music, files, downloads, and container services. Reads finish directly; risky actions pass through approval, execution, verification, and audit.",
+        preview: "Preview · v0.1.0",
+        repoAction: "Browse the GitHub repository",
+        docsAction: "Read the docs",
+        deployAction: "Container quick start",
+        readiness: "Public repository, v0.1.0 release tag, and OCI image are available",
+        surfacesEyebrow: "Three entry points",
+        surfacesTitle: "Put the agent where you already work.",
+        surfaces: [
+          {
+            label: "01 / MCP",
+            title: "Connect an existing agent",
+            body: "Expose tools at /mcp. Any MCP client that can set an HTTP header can list and call Core capabilities.",
+          },
+          {
+            label: "02 / HTTP",
+            title: "Build clients and automation",
+            body: "Sessions, goals, schedules, activity, approvals, and audit are exposed through /v1 for the App or your own workflow.",
+          },
+          {
+            label: "03 / CLI + TUI",
+            title: "Work in the terminal",
+            body: "Read and edit files, run guarded commands, execute a one-shot task, or enter the full interactive terminal in a chosen workspace.",
+          },
+        ],
+        boundaryEyebrow: "Execution boundary",
+        boundaryTitle: "Policy decides what is possible. Approval decides what runs now.",
+        boundaryLead:
+          "The model understands and proposes; it does not authorize itself. Writes, dangerous commands, and boundary crossings pass through independent controls and enter Activity and the audit record.",
+        boundaries: [
+          {
+            title: "Token",
+            body: "An API token has full access with no built-in scope. Create one per device and revoke only the lost device when needed.",
+          },
+          {
+            title: "Approval",
+            body: "Approval responsibility differs inside Core and through MCP. An /mcp caller obtains confirmation from its user, or writes can be disabled entirely.",
+          },
+          {
+            title: "Isolation",
+            body: "Containers and the host use different isolation models. The default publishes only loopback; remote access needs TLS, a tunnel, or a trusted reverse proxy.",
+          },
+          {
+            title: "Audit",
+            body: "Every tool call appends an audit record. Logs omit full arguments and output but retain enough to see who called what and when.",
+          },
+        ],
+        sourceEyebrow: "Open source",
+        sourceTitle: "Apache-2.0, public builds, public discussion.",
+        sourceBody:
+          "Core source, releases, issues, and deployment docs live in a public repository. The Thebe name and marks remain outside the Apache-2.0 license.",
+        sourceRepo: "View the source",
+        sourceIssues: "Public issues",
+        sourceSecurity: "Report security privately",
+        deployTitle: "Preview limitations",
+        deployBody:
+          "v0.1.0 is Preview. Some integrations have only been verified with recorded responses and mocks; compatibility against each real product version has not been confirmed. Do not treat Preview as a production guarantee.",
+      };
+
+const releaseUrl = `${siteConfig.coreRepositoryUrl}/releases/tag/${siteConfig.coreDocsTag}`;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  name: "Thebe Core",
+  description: text.description,
+  codeRepository: siteConfig.coreRepositoryUrl,
+  license: "https://www.apache.org/licenses/LICENSE-2.0",
+  programmingLanguage: "TypeScript",
+  version: siteConfig.coreDocsTag,
+  operatingSystem: "Linux, macOS",
+};
+---
+
+<BaseLayout locale={locale} route="/core" title={text.title} description={text.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <article class="product-page core-page">
+    <section class="core-hero">
+      <div class="core-hero-copy">
+        <div class="core-labels">
+          <p class="eyebrow eyebrow-dark">{text.eyebrow}</p>
+          <span>{text.preview}</span>
+        </div>
+        <h1>{text.heading}</h1>
+        <p class="hero-lead">{text.lead}</p>
+        <div class="hero-actions">
+          <a class="button button-light" href={siteConfig.coreRepositoryUrl}>{text.repoAction} ↗</a>
+          <a class="button button-outline-light" href={docsUrl(locale)}>{text.docsAction}</a>
+          {
+            deploymentReady && (
+              <a class="button button-outline-light" href={`${docsUrl(locale)}quick-start/`}>{text.deployAction}</a>
+            )
+          }
+        </div>
+        {deploymentReady && <p class="readiness"><span aria-hidden="true"></span>{text.readiness}</p>}
+      </div>
+      <div class="core-hero-panel" aria-hidden="true">
+        <pre><code><span class="prompt">POST</span> /mcp
+&#123;
+  "jsonrpc": "2.0",
+  "method": "tools/list",
+  "id": 1
+&#125;
+
+<span class="success">✓</span> capabilities listed
+<span class="success">✓</span> policy attached
+<span class="success">✓</span> audit enabled</code></pre>
+      </div>
+    </section>
+
+    <section class="section surface-section" aria-labelledby="surface-title">
+      <div class="section-heading">
+        <p class="eyebrow">{text.surfacesEyebrow}</p>
+        <h2 id="surface-title">{text.surfacesTitle}</h2>
+      </div>
+      <div class="surface-grid">
+        {
+          text.surfaces.map((surface) => (
+            <article>
+              <span>{surface.label}</span>
+              <h3>{surface.title}</h3>
+              <p>{surface.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section boundary-section" aria-labelledby="boundary-title">
+      <div class="boundary-heading">
+        <p class="eyebrow">{text.boundaryEyebrow}</p>
+        <h2 id="boundary-title">{text.boundaryTitle}</h2>
+        <p>{text.boundaryLead}</p>
+      </div>
+      <div class="boundary-grid">
+        {
+          text.boundaries.map((boundary) => (
+            <article>
+              <h3>{boundary.title}</h3>
+              <p>{boundary.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section source-section" aria-labelledby="source-title">
+      <div>
+        <p class="eyebrow">{text.sourceEyebrow}</p>
+        <h2 id="source-title">{text.sourceTitle}</h2>
+        <p>{text.sourceBody}</p>
+      </div>
+      <div class="source-links">
+        <a class="button button-primary" href={siteConfig.coreRepositoryUrl}>{text.sourceRepo} ↗</a>
+        <a class="text-link" href={`${siteConfig.coreRepositoryUrl}/issues`}>{text.sourceIssues} ↗</a>
+        <a class="text-link" href={routeFor("/security", locale)}>{text.sourceSecurity} →</a>
+      </div>
+      <aside class="preview-note">
+        <span>{text.preview}</span>
+        <h3>{text.deployTitle}</h3>
+        <p>{text.deployBody}</p>
+        <a class="text-link" href={releaseUrl}>{siteConfig.coreDocsTag} ↗</a>
+      </aside>
+    </section>
+  </article>
+</BaseLayout>
+
