@@ -62,6 +62,9 @@ for (const filePath of htmlFiles) {
   assert.ok(title, `${relPath} must have a title`);
 
   if (!is404) {
+    assert.ok(!titles.has(title), `Duplicate title detected: "${title}" in ${relPath}`);
+    titles.add(title);
+
   // Check description
   const description = root.querySelector('meta[name="description"]')?.getAttribute("content");
   assert.ok(description, `${relPath} must have a description`);

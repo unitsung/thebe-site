@@ -14,6 +14,57 @@ const deployHost = process.env.DEPLOY_HOST || "thebe.cc";
 const deployUser = process.env.DEPLOY_USER || "deploy";
 const deployPath = process.env.DEPLOY_PATH || "/var/www/thebe.cc";
 const remoteTarget = `${deployUser}@${deployHost}`;
+const currentSymlink = `${deployPath}/current`;
+
+if (isRollback) {
+  console.log(`=== Thebe Site Rollback ===`);
+  console.log(`Host: ${remoteTarget}`);
+  console.log(`Base path: ${deployPath}`);
+  console.log(`Mode: ${isDryRun ? "DRY-RUN (simulation only)" : "LIVE"}`);
+
+  const rollbackCommands = [
+    `# 1. Query existing release directories`,
+    `ssh ${remoteTarget} "ls -1dt ${deployPath}/releases/*"`,
+    `# 2. Select previous release target (second newest)`,
+    `# 3. Atomically switch current symlink pointer to previous release`,
+    `ssh ${remoteTarget} "ln -sfn <previous-release> ${deployPath}/current_tmp && mv -Tf ${deployPath}/current_tmp ${currentSymlink}"`,
+  ];
+
+  if (isDryRun) {
+    console.log("\nPlanned rollback steps:");
+    for (const cmd of rollbackCommands) {
+      console.log(`  ${cmd}`);
+    }
+    console.log("\n[Dry-run rollback simulation successful. No remote changes made.]");
+    process.exit(0);
+  }
+
+  if (!process.env.DEPLOY_HOST) {
+    console.error("Error: DEPLOY_HOST is required for live rollback.");
+    process.exit(1);
+  }
+
+  try {
+    console.log("Querying releases on remote host...");
+    const raw = execSync(`ssh ${remoteTarget} "ls -1dt ${deployPath}/releases/*"`, { encoding: "utf8" });
+    const releases = raw.trim().split("\n").filter(Boolean);
+    if (releases.length < 2) {
+      console.error("Rollback aborted: fewer than 2 releases found in remote history.");
+      process.exit(1);
+    }
+    const targetRelease = releases[1];
+    console.log(`Rolling back to: ${targetRelease}`);
+    execSync(
+      `ssh ${remoteTarget} "ln -sfn ${targetRelease} ${deployPath}/current_tmp && mv -Tf ${deployPath}/current_tmp ${currentSymlink}"`,
+      { stdio: "inherit" },
+    );
+    console.log("Rollback completed successfully.");
+    process.exit(0);
+  } catch (error) {
+    console.error("Rollback failed:", error.message);
+    process.exit(1);
+  }
+}
 
 assert.ok(existsSync(releaseDir), "Release directory dist/release must exist before deployment.");
 const releaseFiles = readdirSync(releaseDir);
@@ -29,7 +80,6 @@ try {
 const timestamp = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
 const releaseId = `${timestamp}-${commit}`;
 const remoteReleasePath = `${deployPath}/releases/${releaseId}`;
-const currentSymlink = `${deployPath}/current`;
 
 console.log(`=== Thebe Site Deployment ===`);
 console.log(`Host: ${remoteTarget}`);

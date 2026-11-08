@@ -48,6 +48,15 @@ const socialImage = new URL("/assets/social-card.png", Astro.site).href;
         <meta name="robots" content="noindex,nofollow" />
       )
     }
+    {siteConfig.webmaster?.google && (
+      <meta name="google-site-verification" content={siteConfig.webmaster.google} />
+    )}
+    {siteConfig.webmaster?.bing && (
+      <meta name="msvalidate.01" content={siteConfig.webmaster.bing} />
+    )}
+    {siteConfig.webmaster?.baidu && (
+      <meta name="baidu-site-verification" content={siteConfig.webmaster.baidu} />
+    )}
     <link rel="icon" href="/assets/thebe-app-icon.png" />
   </head>
   <body>

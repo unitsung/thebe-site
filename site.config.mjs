@@ -11,6 +11,11 @@ export const siteConfig = {
     support: "support@thebe.cc",
     security: "security@thebe.cc",
   },
+  webmaster: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || "",
+    bing: process.env.BING_SITE_VERIFICATION || "",
+    baidu: process.env.BAIDU_SITE_VERIFICATION || "",
+  },
 };
 
 export const localePath = (pathname, locale) => {

@@ -7,7 +7,6 @@ import { siteConfig } from "../site.config.mjs";
 const rootDir = fileURLToPath(new URL("..", import.meta.url));
 const docContentDir = join(rootDir, "documentation", "content");
 const authoredDir = join(rootDir, "documentation", "authored");
-const docPublicDir = join(rootDir, "documentation", "public");
 const marketingPublicDir = join(rootDir, "marketing", "public");
 const localCoreDir = fileURLToPath(new URL("../../core", import.meta.url));
 
@@ -132,126 +131,7 @@ await writeDoc(
   readmeEn,
 );
 
-// 2. Quick start
-const quickStartZh = `# 快速开始
-
-容器是 Thebe Core 受支持的运行方式。支持 \`linux/amd64\` 与 \`linux/arm64\`。
-
-## 1. 使用发布镜像运行
-
-推荐使用官方发布的多架构容器镜像：
-
-\`\`\`bash
-cd deploy
-cp .env.example .env
-docker compose up -d
-\`\`\`
-
-检查运行状态与健康检查：
-
-\`\`\`bash
-docker compose ps
-TOKEN=$(sed -n 's/^THEBE_TOKEN=//p' .env)
-curl -s -H "X-Thebe-Token: $TOKEN" http://127.0.0.1:8787/v1/health
-\`\`\`
-
-## 2. 目录挂载约定
-
-容器默认只监听 \`127.0.0.1:8787\`，并挂载两处目录：
-
-- \`deploy/data\` → \`/data\`：持久化保存 \`config.json\`、Pi agent 文件、会话元数据与输出。
-- \`$THEBE_WORKSPACE\` → \`/workspace\`：Agent 唯一被允许读写的工作区目录。
-
-所有持久状态均位于 \`/data\`，备份、升级与回滚均围绕该目录进行。
-
-## 3. 从源码启动（开发环境）
-
-如果不使用 Docker，可在 Node.js 24 LTS 环境下直接运行：
-
-\`\`\`bash
-npm install
-cp .env.example .env
-THEBE_WORKSPACE_DIR=/srv/thebe-workspace npm run start:build
-\`\`\`
-
-## 4. 后续配置
-
-Core 启动后不自带模型：
-- 在终端交互界面使用 \`/settings\` 登录模型服务商。
-- 参见[配置指南](/configuration)连接 Emby、Jellyfin、Immich、Navidrome 等服务。
-- 参见[部署与恢复](/deployment)了解生产环境 TLS 与备份策略。
-`;
-
-const quickStartEn = `# Quick start
-
-The container is the supported runtime for Thebe Core. Both \`linux/amd64\` and \`linux/arm64\` architectures are supported.
-
-## 1. Run using the published container image
-
-We recommend using the official multi-architecture container image:
-
-\`\`\`bash
-cd deploy
-cp .env.example .env
-docker compose up -d
-\`\`\`
-
-Verify service status and health:
-
-\`\`\`bash
-docker compose ps
-TOKEN=$(sed -n 's/^THEBE_TOKEN=//p' .env)
-curl -s -H "X-Thebe-Token: $TOKEN" http://127.0.0.1:8787/v1/health
-\`\`\`
-
-## 2. Directory mount layout
-
-The container publishes \`127.0.0.1:8787\` only and mounts two paths:
-
-- \`deploy/data\` → \`/data\`: Persists \`config.json\`, Pi agent files, session metadata, and outputs.
-- \`$THEBE_WORKSPACE\` → \`/workspace\`: The only directory tree the agent is allowed to access.
-
-All durable state lives under \`/data\`. Backup, upgrade, and rollback all operate on this single directory.
-
-## 3. Run from source (development)
-
-To run outside Docker, use Node.js 24 LTS:
-
-\`\`\`bash
-npm install
-cp .env.example .env
-THEBE_WORKSPACE_DIR=/srv/thebe-workspace npm run start:build
-\`\`\`
-
-## 4. Next steps
-
-Core does not bundle model credentials:
-- Use \`/settings\` in the TUI to authenticate with a model provider.
-- See the [Configuration guide](/configuration) to connect services like Emby, Jellyfin, Immich, or Navidrome.
-- See [Deployment and recovery](/deployment) for production TLS and backup procedures.
-`;
-
-await writeDoc(
-  "zh",
-  "quick-start.md",
-  {
-    title: "快速开始",
-    description: "使用 Docker 容器快速启动 Thebe Core。",
-  },
-  quickStartZh,
-);
-
-await writeDoc(
-  "en",
-  "quick-start.md",
-  {
-    title: "Quick start",
-    description: "Get Thebe Core running quickly using Docker containers.",
-  },
-  quickStartEn,
-);
-
-// 3. Configuration
+// 2. Configuration
 await writeDoc(
   "zh",
   "configuration.md",
@@ -294,38 +174,6 @@ await writeDoc(
 );
 
 // 5. Security
-const securityZh = `# 安全策略
-
-## 受支持版本
-
-开发在 \`dev\` 分支进行，正式发布切自 \`main\`。\`v0.1.0\` 是首个发布版本；仅最新发布版本与 \`dev\` 分支接收安全修复。升级到新版本时保留 \`/data\` 目录。
-
-## 报告安全漏洞
-
-请**不要**通过公开 Issue 报告安全漏洞。
-
-请使用 GitHub 仓库的私密安全漏洞报告功能：打开 Core 仓库的 **Security** 标签页并选择 **Report a vulnerability**。或者发送邮件至 \`${siteConfig.contacts.security}\`。请附带你正在运行的 commit、详细描述及最小复现步骤。
-
-## 部署安全模型
-
-Thebe Core 专为在自有硬件上运行而设计：
-
-- **Token 门禁**：\`NODE_ENV=production\` 下未提供 \`THEBE_TOKEN\` 时拒绝启动，除 \`/docs\` 与 \`/openapi.json\` 外的所有路由均需要通过 \`X-Thebe-Token\` 或 \`Authorization: Bearer\` 携带有效 Token。
-- **默认监听回环**：受支持的容器仅发布 \`127.0.0.1:8787\`。如需非本机访问，请放置在 TLS 之后（Tailscale Serve / Funnel 或终止 TLS 的反向代理），并将公开域名加入 \`THEBE_ALLOWED_HOSTS\`。
-- **严格工作区限制**：Agent 仅被允许读写挂载到 \`/workspace\` 的目录，不可穿越至宿主机或 \`/data\` 其它私密文件。
-- **审批与审计**：破坏性操作（如写入、删除、重启容器）默认需要审批，所有工具调用均实时写入不可篡改的只追加审计日志。
-`;
-
-await writeDoc(
-  "zh",
-  "security.md",
-  {
-    title: "安全",
-    description: "Thebe Core 的安全模型、Token 权限范围、隔离边界与漏洞报告渠道。",
-  },
-  securityZh,
-);
-
 await writeDoc(
   "en",
   "security.md",
