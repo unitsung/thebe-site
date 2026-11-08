@@ -13,6 +13,7 @@
     "build:marketing": "npm --prefix marketing run build",
     "build:docs": "npm run sync:core-docs && npm --prefix documentation run build",
     "build": "npm run build:marketing && npm run build:docs && node scripts/compose-release.mjs",
+    "preview": "node scripts/preview.mjs",
     "check": "npm --prefix marketing run check && npm --prefix documentation run check && node --check scripts/compose-release.mjs && node --check scripts/sync-core-docs.mjs",
     "test": "npm run build && node --test tests/*.test.mjs",
     "test:e2e": "playwright test",
