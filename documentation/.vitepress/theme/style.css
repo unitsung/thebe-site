@@ -13,9 +13,10 @@
   --vp-c-gutter: #dce3ec;
   --vp-c-text-1: #111827;
   --vp-c-text-2: #4f5b6c;
-  --vp-nav-bg-color: rgba(246, 248, 251, 0.92);
-  --vp-code-block-bg: #0b1220;
-  --vp-code-bg: rgba(11, 18, 32, 0.06);
+  --vp-nav-bg-color: #f6f8fb;
+  --vp-code-block-bg: #21252b;
+  --vp-code-color: #0369a1;
+  --vp-code-bg: rgba(3, 105, 161, 0.08);
 }
 
 .dark {
@@ -26,12 +27,24 @@
   --vp-c-gutter: #263247;
   --vp-c-text-1: #edf2fb;
   --vp-c-text-2: #adb9cb;
-  --vp-nav-bg-color: rgba(11, 18, 32, 0.92);
-  --vp-code-bg: rgba(255, 255, 255, 0.08);
+  --vp-nav-bg-color: #0b1220;
+  --vp-code-block-bg: #1e222b;
+  --vp-code-color: #38bdf8;
+  --vp-code-bg: rgba(56, 189, 248, 0.12);
 }
 
-.VPNavBar.has-sidebar .content {
-  background: var(--vp-nav-bg-color);
+.VPNavBar {
+  background-color: var(--vp-nav-bg-color) !important;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.VPNavBar.has-sidebar .content,
+.VPNavBar.has-sidebar .wrapper {
+  background-color: var(--vp-nav-bg-color) !important;
+}
+
+.dark .VPNavBarTitle .logo {
+  filter: invert(1);
 }
 
 .vp-doc h1,
@@ -59,8 +72,19 @@
 }
 
 .vp-doc div[class*="language-"] {
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.vp-doc div[class*="language-"] pre,
+.vp-doc div[class*="language-"] code {
+  color: #e2e8f0;
+}
+
+.vp-doc div[class*="language-"] span.lang {
+  color: #7f848e;
+  font-weight: 500;
 }
 
 .VPSidebar {

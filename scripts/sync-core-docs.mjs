@@ -152,17 +152,7 @@ await writeDoc(
   configEn,
 );
 
-// 4. Deployment
-await writeDoc(
-  "zh",
-  "deployment.md",
-  {
-    title: "部署与恢复",
-    description: "Thebe Core 容器部署形态、持久化存储、HTTPS/Tailscale、健康检查与升级回滚手册。",
-  },
-  deployment,
-);
-
+// 3. Deployment (en)
 await writeDoc(
   "en",
   "deployment.md",
@@ -173,7 +163,7 @@ await writeDoc(
   deployment,
 );
 
-// 5. Security
+// 4. Security (en)
 await writeDoc(
   "en",
   "security.md",
@@ -184,17 +174,7 @@ await writeDoc(
   security,
 );
 
-// 6. Reference: HTTP API
-await writeDoc(
-  "zh",
-  "reference/http.md",
-  {
-    title: "产品 HTTP API",
-    description: "Thebe Core 的 REST API 端点、会话、审批、审计与流式协议参考。",
-  },
-  httpRef,
-);
-
+// 5. Reference: HTTP API (en)
 await writeDoc(
   "en",
   "reference/http.md",
@@ -205,17 +185,7 @@ await writeDoc(
   httpRef,
 );
 
-// 7. Reference: Provider MCP
-await writeDoc(
-  "zh",
-  "reference/provider-mcp.md",
-  {
-    title: "服务商 MCP 参考",
-    description: "使用各服务自带的 MCP 服务器或通过 Thebe Core 代理与调用工具。",
-  },
-  mcpRef,
-);
-
+// 6. Reference: Provider MCP (en)
 await writeDoc(
   "en",
   "reference/provider-mcp.md",
@@ -226,17 +196,7 @@ await writeDoc(
   mcpRef,
 );
 
-// 8. Changelog
-await writeDoc(
-  "zh",
-  "changelog.md",
-  {
-    title: "变更记录",
-    description: "Thebe Core 发布版本与更新日志。",
-  },
-  changelog,
-);
-
+// 7. Changelog (en)
 await writeDoc(
   "en",
   "changelog.md",

@@ -1,4 +1,5 @@
-import { cp, mkdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { siteConfig } from "../site.config.mjs";
 
@@ -35,6 +36,46 @@ try {
 if (!docsZhPresent || !docsEnPresent) {
   // The first vertical slice only requires the marketing artifact.
   console.warn(`Release composed without complete documentation output in ${root}.`);
+}
+
+async function fixHtmlNavLinks(dir, locale) {
+  try {
+    const entries = await readdir(dir, { withFileTypes: true, recursive: true });
+    for (const entry of entries) {
+      if (entry.isFile() && entry.name.endsWith(".html")) {
+        const fullPath = join(entry.parentPath || dir, entry.name);
+        let html = await readFile(fullPath, "utf8");
+        if (locale === "zh") {
+          html = html
+            .replaceAll(`href="/core/docs/app/"`, `href="/app/"`)
+            .replaceAll(`href="/core/docs/core/"`, `href="/core/"`)
+            .replaceAll(`href="/core/docs/en/"`, `href="/en/"`)
+            .replaceAll(`href="/core/docs/en/core/docs/"`, `href="/en/core/docs/"`)
+            .replace(/(<a[^>]*class="[^"]*VPNavBarMenuLink[^"]*"[^>]*href=")\/core\/docs\/("[^>]*><span[^>]*>Thebe<\/span><\/a>)/g, `$1/$2`);
+        } else {
+          html = html
+            .replaceAll(`href="/en/core/docs/en/app/"`, `href="/en/app/"`)
+            .replaceAll(`href="/en/core/docs/app/"`, `href="/en/app/"`)
+            .replaceAll(`href="/en/core/docs/en/core/"`, `href="/en/core/"`)
+            .replaceAll(`href="/en/core/docs/core/"`, `href="/en/core/"`)
+            .replaceAll(`href="/en/core/docs/en/"`, `href="/en/"`)
+            .replaceAll(`href="/en/core/docs/core/docs/"`, `href="/core/docs/"`)
+            .replace(/(<a[^>]*class="[^"]*VPNavBarMenuLink[^"]*"[^>]*href=")\/en\/core\/docs\/("[^>]*><span[^>]*>Thebe<\/span><\/a>)/g, `$1/en/$2`)
+            .replace(/(<a[^>]*class="[^"]*VPNavBarMenuLink[^"]*"[^>]*href=")\/en\/core\/docs\/en\/("[^>]*><span[^>]*>Thebe<\/span><\/a>)/g, `$1/en/$2`);
+        }
+        await writeFile(fullPath, html, "utf8");
+      }
+    }
+  } catch (err) {
+    if (err.code !== "ENOENT") throw err;
+  }
+}
+
+if (docsZhPresent) {
+  await fixHtmlNavLinks(fileURLToPath(targetZh), "zh");
+}
+if (docsEnPresent) {
+  await fixHtmlNavLinks(fileURLToPath(targetEn), "en");
 }
 
 const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>

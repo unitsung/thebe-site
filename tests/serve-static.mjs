@@ -21,7 +21,9 @@ const mimeTypes = {
 
 const server = http.createServer(async (req, res) => {
   const urlPath = req.url.split("?")[0].split("#")[0];
+  const cleanPath = urlPath.replace(/\/+$/, "");
   const rawPath = join(releaseDir, urlPath);
+  const strippedPath = join(releaseDir, cleanPath);
 
   let target = null;
   if (existsSync(rawPath)) {
@@ -32,9 +34,16 @@ const server = http.createServer(async (req, res) => {
     } else {
       target = rawPath;
     }
-  } else {
-    const htmlPath = `${rawPath}.html`;
-    if (existsSync(htmlPath)) target = htmlPath;
+  }
+
+  if (!target && existsSync(`${rawPath}.html`)) {
+    target = `${rawPath}.html`;
+  }
+  if (!target && existsSync(`${strippedPath}.html`)) {
+    target = `${strippedPath}.html`;
+  }
+  if (!target && existsSync(join(strippedPath, "index.html"))) {
+    target = join(strippedPath, "index.html");
   }
 
   if (target) {

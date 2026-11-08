@@ -8,15 +8,16 @@ const languageName = isEnglish ? "English" : "简体中文";
 const siteLabel = isEnglish ? "Thebe" : "Thebe";
 
 const navigation: DefaultTheme.NavItem[] = [
-  { text: siteLabel, link: isEnglish ? "/en/" : "/" },
-  { text: "App", link: isEnglish ? "/en/app/" : "/app/" },
-  { text: "Core", link: isEnglish ? "/en/core/" : "/core/" },
+  { text: siteLabel, link: isEnglish ? "/en/" : "/", target: "_self" },
+  { text: "App", link: isEnglish ? "/en/app/" : "/app/", target: "_self" },
+  { text: "Core", link: isEnglish ? "/en/core/" : "/core/", target: "_self" },
   {
     text: languageName,
     items: [
       {
         text: isEnglish ? "简体中文" : "English",
         link: isEnglish ? "/core/docs/" : "/en/core/docs/",
+        target: "_self",
       },
     ],
   },
@@ -108,6 +109,12 @@ export default defineConfig({
   ignoreDeadLinks: true,
   cleanUrls: true,
   lastUpdated: false,
+  markdown: {
+    theme: {
+      light: "one-dark-pro",
+      dark: "one-dark-pro",
+    },
+  },
   head: [
     ["meta", { name: "theme-color", content: "#0b1220" }],
     ["link", { rel: "icon", href: "/assets/thebe-app-icon.png" }],
@@ -121,6 +128,7 @@ export default defineConfig({
       src: "/assets/thebe-app-icon.png",
       alt: "Thebe",
     },
+    logoLink: isEnglish ? "/en/" : "/",
     nav: navigation,
     sidebar,
     search: {
