@@ -289,46 +289,15 @@ pre {
 
 .phone-frame {
   position: relative;
-  overflow: hidden;
   width: min(100%, 360px);
   margin-inline: auto;
-  padding: 12px;
-  border: 1px solid #cfd7e1;
-  border-radius: 34px;
-  background: #111827;
-  box-shadow: 0 30px 80px rgba(32, 48, 72, 0.18);
-}
-
-.phone-frame::before {
-  position: absolute;
-  z-index: 2;
-  top: 18px;
-  left: 50%;
-  width: 80px;
-  height: 20px;
-  border-radius: 20px;
-  background: #111827;
-  content: "";
-  transform: translateX(-50%);
-}
-
-.phone-status {
-  position: absolute;
-  z-index: 3;
-  top: 18px;
-  right: 22px;
-  left: 22px;
-  display: flex;
-  justify-content: space-between;
-  color: #101828;
-  font-size: 0.58rem;
-  font-weight: 720;
+  filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.4));
 }
 
 .phone-frame img {
+  display: block;
   width: 100%;
   height: auto;
-  border-radius: 24px;
 }
 
 .visual-note {
@@ -878,20 +847,15 @@ pre {
 }
 
 .showcase-screen-mockup {
-  width: min(100%, 250px);
-  padding: 8px;
-  border-radius: 40px;
-  background: #192336;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  overflow: hidden;
+  width: min(100%, 260px);
+  margin-inline: auto;
+  filter: drop-shadow(0 20px 48px rgba(0, 0, 0, 0.45));
 }
 
 .showcase-screen-mockup img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 32px;
 }
 
 .showcase-meta {
@@ -965,20 +929,15 @@ pre {
 }
 
 .pad-frame {
-  width: min(100%, 460px);
-  overflow: hidden;
-  padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 36px;
-  background: #111a2c;
-  box-shadow: 0 32px 80px rgba(11, 18, 32, 0.25);
+  width: min(100%, 480px);
+  margin-inline: auto;
+  filter: drop-shadow(0 24px 64px rgba(0, 0, 0, 0.4));
 }
 
 .pad-frame img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 28px;
 }
 
 /* Action Steps & Repair Window */
@@ -2062,15 +2021,6 @@ pre {
     padding-inline: 16px;
     padding-block: 48px 64px;
     gap: 36px;
-  }
-
-  .pad-frame {
-    border-radius: 24px;
-    padding: 6px;
-  }
-
-  .pad-frame img {
-    border-radius: 18px;
   }
 
   .product-hero {

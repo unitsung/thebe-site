@@ -56,19 +56,19 @@ const text = isZh
       galleryLead: "专为 iOS、iPadOS 与 macOS 打造，深色模式自然契合，信息密度与可读性完美平衡。",
       gallery: [
         {
-          img: "/assets/app-home-zh.jpg",
+          img: "/assets/device-iphone-home-zh.png",
           tag: "全景看板",
           title: "主机硬件负载与容器状态",
           desc: "CPU、内存、系统盘与多块硬盘温度实时呈现，容器故障显式预警。",
         },
         {
-          img: "/assets/app-services-zh.jpg",
+          img: "/assets/device-iphone-services-zh.png",
           tag: "服务矩阵",
           title: "基础设施与网络安全服务",
           desc: "一站式管理 PVE 虚拟化、TrueNAS 存储、Beszel 监控、AdGuard 与 UniFi 网络。",
         },
         {
-          img: "/assets/app-library-zh.jpg",
+          img: "/assets/device-iphone-library-zh.png",
           tag: "资料中枢",
           title: "多媒体聚合与私有资料库",
           desc: "无缝汇聚 Emby、Jellyfin、Navidrome 音乐与 Immich 智能相册，海报墙与播放直连无需频繁切应用。",
@@ -83,7 +83,7 @@ const text = isZh
         "适配 Stage Manager 与 Split View，日常监控无缝融入桌面工作流",
         "深度支持 Apple Silicon Mac 键盘快捷键与多窗口调度",
       ],
-      padImg: "/assets/app-pad-zh.jpg",
+      padImg: "/assets/device-ipad-home-zh.png",
       padAlt: "Thebe App 在 iPad / Mac 上的大屏工作台界面",
 
       detailEyebrow: "从观察到行动",
@@ -205,19 +205,19 @@ const text = isZh
       galleryLead: "Crafted specifically for iOS, iPadOS, and macOS with authentic dark-mode depth, high information density, and effortless readability.",
       gallery: [
         {
-          img: "/assets/app-home-en.jpg",
+          img: "/assets/device-iphone-home-en.png",
           tag: "Horizon",
           title: "Hardware Metrics & Container Health",
           desc: "Live CPU, memory, system drive, and multi-disk temperatures with explicit container failure alerts.",
         },
         {
-          img: "/assets/app-services-en.jpg",
+          img: "/assets/device-iphone-services-en.png",
           tag: "Services",
           title: "Infrastructure & Security Hub",
           desc: "Unified control for PVE, TrueNAS, Beszel, AdGuard DNS, and UniFi network gateways.",
         },
         {
-          img: "/assets/app-library-en.jpg",
+          img: "/assets/device-iphone-library-en.png",
           tag: "Library",
           title: "Unified Media & Private Assets",
           desc: "Centralized hub for Emby, Jellyfin, Navidrome music, and Immich photos without switching between disjointed apps.",
@@ -232,7 +232,7 @@ const text = isZh
         "Seamless support for Stage Manager and Split View alongside your terminal",
         "Keyboard shortcut optimizations tailored for Apple Silicon Mac multitasking",
       ],
-      padImg: "/assets/app-pad-en.jpg",
+      padImg: "/assets/device-ipad-home-en.png",
       padAlt: "Thebe App expansive workspace on iPad and Mac",
 
       detailEyebrow: "From Observation to Action",
@@ -337,9 +337,9 @@ const text = isZh
         <div class="device-glow" aria-hidden="true"></div>
         <div class="phone-frame">
           <img
-            src={isZh ? "/assets/app-home-zh.jpg" : "/assets/app-home-en.jpg"}
-            width="720"
-            height="1565"
+            src={isZh ? "/assets/device-iphone-home-zh.png" : "/assets/device-iphone-home-en.png"}
+            width="800"
+            height="1635"
             alt={text.visualAlt}
           />
         </div>
@@ -382,7 +382,7 @@ const text = isZh
             <div class="showcase-card">
               <div class="showcase-screen">
                 <div class="showcase-screen-mockup">
-                  <img src={item.img} width="720" height="1565" alt={item.title} />
+                  <img src={item.img} width="800" height="1635" alt={item.title} />
                 </div>
               </div>
               <div class="showcase-meta">
@@ -411,8 +411,8 @@ const text = isZh
           <div class="pad-frame">
             <img
               src={text.padImg}
-              width="1200"
-              height="1600"
+              width="1150"
+              height="1500"
               alt={text.padAlt}
             />
           </div>
